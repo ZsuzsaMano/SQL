@@ -86,6 +86,35 @@ THE SUSPECT IS JEREMY Bowers
 ******************
 
 SELECT *
+FROM interview
+WHERE person_id=67318
+
+person_id
+67318	
+
+transcript
+I was hired by a woman with a lot of money. I don't know her name but I know she's around 5'5" (65") or 5'7" (67"). 
+She has red hair and she drives a Tesla Model S. I know that she attended the SQL Symphony Concert 3 times in December 2017. 
+
+SELECT *
+FROM facebook_event_checkin
+JOIN person
+  ON facebook_event_checkin.person_id = person.id
+  JOIN drivers_license
+  ON person.license_id = drivers_license.id
+  WHERE event_name='SQL Symphony Concert'
+  AND gender='female'
+  AND hair_color='red'
+  AND car_make='Tesla';
+
+******************
+THE VILLIAN IS Miranda Priestly
+
+******************
+
+
+
+SELECT *
 FROM facebook_event_checkin
 JOIN person
   ON facebook_event_checkin.person_id = person.id
