@@ -1,0 +1,106 @@
+A MURDER CASE FROM: https://mystery.knightlab.com/
+
+
+SELECT * FROM crime_scene_report 
+WHERE type = 'murder' 
+AND city = 'SQL City'
+AND date='20180115';
+
+    20180115	murder		SQL City
+
+    Security footage shows that there were 2 witnesses. The first witness lives at the last house on "Northwestern Dr". 
+    The second witness, named Annabel, lives somewhere on "Franklin Ave".
+
+SELECT * FROM person LIMIT 10;
+
+        PERSON: id	name	license_id	address_number	address_street_name	ssn
+
+SELECT max(address_number) FROM person 
+WHERE address_street_name='Northwestern Dr';
+
+
+           4919
+
+SELECT * FROM person 
+WHERE address_street_name='Northwestern Dr'
+AND address_number=4919;
+
+
+            14887	Morty Schapiro	118009	4919	Northwestern Dr	111564949
+
+SELECT * FROM person 
+WHERE address_street_name='Franklin Ave'
+AND name LIKE '%Annabel%';
+
+            16371	Annabel Miller	490173	103	Franklin Ave	318771143
+
+SELECT * FROM interview 
+WHERE person_id = 14887 
+OR person_id=16371;
+
+            14887	I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. 
+                    The membership number on the bag started with "48Z". Only gold members have those bags. 
+                    The man got into a car with a plate that included "H42W".
+
+            16371	I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.
+
+
+SELECT * FROM get_fit_now_member LIMIT 10;
+
+        id	    person_id	    name	    membership_start_date	membership_status
+        NL318	65076	    Everette Koepke	    20170926	        gold
+
+SELECT * FROM get_fit_now_check_in LIMIT 10;
+
+        membership_id	check_in_date	check_in_time	check_out_time
+                NL318	20180212	        329	                365
+
+
+SELECT get_fit_now_member.name
+FROM get_fit_now_member
+JOIN get_fit_now_check_in
+  ON get_fit_now_member.id = get_fit_now_check_in.membership_id
+WHERE membership_status='gold'
+AND id LIKE '48Z%'
+AND check_in_date=20180109
+
+
+                name
+            Joe Germuska
+            Jeremy Bowers
+
+SELECT *
+FROM person
+JOIN drivers_license
+  ON person.license_id = drivers_license.id
+  WHERE name='Joe Germuska'
+  OR name ='Jeremy Bowers'
+  AND plate_number LIKE '%H42W%';
+
+        id	    name	        license_id	address_number	address_street_name	ssn	    id	    age	height	eye_color	hair_color	gender	plate_number	car_make	car_model
+        67318	Jeremy Bowers	423327	       530	Washington Pl, Apt 3A	871539279	423327	30	70	        brown	brown	    male	  0H42W2	   Chevrolet	Spark LS
+
+
+******************
+THE SUSPECT IS JEREMY Bowers
+******************
+
+SELECT *
+FROM facebook_event_checkin
+JOIN person
+  ON facebook_event_checkin.person_id = person.id
+  WHERE name='Joe Germuska'
+  OR name ='Jeremy Bowers';
+
+erson_id	event_id	event_name	date	id	name	license_id	address_number	address_street_name	ssn
+67318	4719	The Funky Grooves Tour	20180115	67318	Jeremy Bowers	423327	530	Washington Pl, Apt 3A	871539279
+67318	1143	SQL Symphony Concert	20171206	67318	Jeremy Bowers	423327	530	Washington Pl, Apt 3A	871539279
+
+
+
+
+
+
+
+
+
