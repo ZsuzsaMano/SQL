@@ -121,7 +121,7 @@ JOIN person
   WHERE name='Joe Germuska'
   OR name ='Jeremy Bowers';
 
-erson_id	event_id	event_name	date	id	name	license_id	address_number	address_street_name	ssn
+person_id	event_id	event_name	date	id	name	license_id	address_number	address_street_name	ssn
 67318	4719	The Funky Grooves Tour	20180115	67318	Jeremy Bowers	423327	530	Washington Pl, Apt 3A	871539279
 67318	1143	SQL Symphony Concert	20171206	67318	Jeremy Bowers	423327	530	Washington Pl, Apt 3A	871539279
 
