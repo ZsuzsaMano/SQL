@@ -56,13 +56,13 @@ for row in cursor2:
    print (f'{row[0]}: {row[1]} €')
 
 # 1.3 Select the name of the products with a price less than or equal to $200.
-cursor3 = conn.execute("SELECT name from Products WHERE price >= 200")
+cursor3 = conn.execute("SELECT name FROM Products WHERE price >= 200")
 print ("\n Product Name and price  200:")
 for row in cursor3:
    print (f'{row[0]}')
 
 # 1.4 Select all the products with a price between $60 and $120.
-cursor4 = conn.execute("SELECT name from Products WHERE price <120 AND price>60 ")
+cursor4 = conn.execute("SELECT name FROM Products WHERE price <120 AND price>60 ")
 print ("\n Product Name and price 60-200:")
 for row in cursor4:
    print (f'{row[0]}')
@@ -74,20 +74,53 @@ for row in cursor5:
    print (f'{row[0]}: {row[1]*100} cent')
 
 # 1.6 Compute the average price of all the products.
+cursor6 = conn.execute("SELECT AVG(price) FROM Products")
+print ("\n Product Avarage price:")
+for row in cursor6:
+   print (f'{row[0]} €')
 
 # 1.7 Compute the average price of all products with manufacturer code equal to 2.
+cursor7 = conn.execute("SELECT AVG(price) FROM Products WHERE Manufacturer=2")
+print ("\n Product Avarage price from manu 2:")
+for row in cursor7:
+   print (f'{row[0]} €')
 
 # 1.8 Compute the number of products with a price larger than or equal to $180.
+cursor8 = conn.execute("SELECT COUNT(name) FROM Products WHERE price>=180")
+print ("\n Products >=180€:")
+for row in cursor8:
+   print (f'{row[0]}')
+
 
 # 1.9 Select the name and price of all products with a price larger than or equal to $180, and sort first by price (in descending order), and then by name (in ascending order).
+cursor9 = conn.execute("SELECT name, price FROM Products WHERE price >= 180 ORDER BY price DESC, name ASC")
+print ("\n Product price DESC Name ASC and  >=180 :")
+for row in cursor9:
+   print (f'{row[0]}: {row[1]}')
 
 # 1.10 Select all the data from the products, including all the data for each product's manufacturer.
+cursor10 = conn.execute("SELECT * FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code")
+print ("\n Product with Manufacturer :")
+for row in cursor10:
+   print (f'{row}')
 
 # 1.11 Select the product name, price, and manufacturer name of all the products.
+cursor11 = conn.execute("SELECT Products.name, price, Manufacturers.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code")
+print ("\n Product name, price with Manufacturer :")
+for row in cursor11:
+   print (f'{row}')
 
 # 1.12 Select the average price of each manufacturer's products, showing only the manufacturer's code.
+cursor12 = conn.execute("SELECT AVG(price), Manufacturer FROM Products GROUP BY Manufacturer")
+print ("\n AVG price by Manufacturer :")
+for row in cursor12:
+   print (f'{row}')
 
 # 1.13 Select the average price of each manufacturer's products, showing the manufacturer's name.
+cursor13 = conn.execute("SELECT AVG(price), Manufacturers.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code GROUP BY Manufacturer")
+print ("\n Product name, price with Manufacturer :")
+for row in cursor13:
+   print (f'{row}')
 
 # 1.14 Select the names of manufacturer whose products have an average price larger than or equal to $150.
 
