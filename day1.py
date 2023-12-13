@@ -123,21 +123,41 @@ for row in cursor13:
    print (f'{row}')
 
 # 1.14 Select the names of manufacturer whose products have an average price larger than or equal to $150.
-cursor14 = conn.execute("SELECT Manufacturers.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code GROUP BY Manufacturer HAVING AVG(price)>150")
-print ("\n Product AVG price by Manufacturer name:")
+cursor14 = conn.execute("SELECT Manufacturers.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code GROUP BY Manufacturer HAVING AVG(price)>=150")
+print ("\n Product AVG price>=150 by Manufacturer name:")
 for row in cursor14:
    print (f'{row}')
 
 # 1.15 Select the name and price of the cheapest product.
+cursor15 = conn.execute("SELECT name, MIN(price) FROM Products")
+print ("\n Cheepest Product name :")
+for row in cursor15:
+   print (f'{row[0]}: {row[1]}€')
+
 
 # 1.16 Select the name of each manufacturer along with the name and price of its most expensive product.
+cursor16 = conn.execute("SELECT Manufacturers.name,MAX(price), Products.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code GROUP BY Manufacturer")
+print ("\n Product AVG price>=150 by Manufacturer name:")
+for row in cursor16:
+   print (f'{row}')
 
 # 1.17 Add a new product: Loudspeakers, $70, manufacturer 2.
+conn.execute('''INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(11,'Loudspeakers',70,2);''')
 
 # 1.18 Update the name of product 8 to "Laser Printer".
+conn.execute('''UPDATE Products SET name="Laser Printer" WHERE code=8 ;''')
+
 
 # 1.19 Apply a 10% discount to all products.
+conn.execute('''UPDATE Products SET price=price*0.9;''')
+
 
 # 1.20 Apply a 10% discount to all products with a price larger than or equal to $120.
+conn.execute('''UPDATE Products SET price=price*0.9 WHERE price>=120;''')
+
+cursor0 = conn.execute("SELECT name, price FROM Products")
+print ("\n Product Name and price:")
+for row in cursor0:
+   print (f'{row[0]}: {row[1]}')
 
 conn.close()
