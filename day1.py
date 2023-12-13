@@ -112,17 +112,21 @@ for row in cursor11:
 
 # 1.12 Select the average price of each manufacturer's products, showing only the manufacturer's code.
 cursor12 = conn.execute("SELECT AVG(price), Manufacturer FROM Products GROUP BY Manufacturer")
-print ("\n AVG price by Manufacturer :")
+print ("\n AVG price by Manufacturer code :")
 for row in cursor12:
    print (f'{row}')
 
 # 1.13 Select the average price of each manufacturer's products, showing the manufacturer's name.
 cursor13 = conn.execute("SELECT AVG(price), Manufacturers.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code GROUP BY Manufacturer")
-print ("\n Product name, price with Manufacturer :")
+print ("\n Product AVG price by Manufacturer name:")
 for row in cursor13:
    print (f'{row}')
 
 # 1.14 Select the names of manufacturer whose products have an average price larger than or equal to $150.
+cursor14 = conn.execute("SELECT Manufacturers.name FROM Products JOIN Manufacturers ON Products.Manufacturer=Manufacturers.Code GROUP BY Manufacturer HAVING AVG(price)>150")
+print ("\n Product AVG price by Manufacturer name:")
+for row in cursor14:
+   print (f'{row}')
 
 # 1.15 Select the name and price of the cheapest product.
 
