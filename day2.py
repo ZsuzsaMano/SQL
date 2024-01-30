@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('Day1.db')
+conn = sqlite3.connect('Day2.db')
 
 print('Opened database successfully')
 
@@ -144,15 +144,73 @@ res14 = conn.execute('''SELECT department
                         GROUP BY department HAVING COUNT(name)>2''')
 for row in res14:
    print(row) 
+   
 # 2.15 Select the name and last name of employees working for the two departments with lowest budget.
+   print( " \n lowest budget dep employee names")
+res15 = conn.execute('''SELECT Employees.name, Employees.LastName, budget
+                      FROM Employees
+                      JOIN departments
+                      ON Employees.Department=departments.code
+                      ORDER BY budget
+                      LIMIT 2''')
+for row in res15:
+   print(row) 
+   
 # 2.16  Add a new department called "Quality Assurance", with a budget of $40,000 and departmental code 11. 
-# And Add an employee called "Mary Moore" in that department, with SSN 847-21-9811.
-# 2.17 Reduce the budget of all departments by 10%.
-# 2.18 Reassign all employees from the Research department (code 77) to the IT department (code 14).
-# 2.19 Delete from the table all employees in the IT department (code 14).
-# 2.20 Delete from the table all employees who work in departments with a budget greater than or equal to $60,000.
-# 2.21 Delete from the table all employees.
+print("\n add new department")
+conn.execute('''INSERT INTO Departments(Code,Name,Budget)
+              VALUES(11,'Quality Assurance',40000);''')
 
+# And Add an employee called "Mary Moore" in that department, with SSN 847-21-9811.
+print(" \n add employeee to department")
+conn.execute('''INSERT INTO Employees 
+             VALUES(847219811,'Mary','Moore', 11);''')
+
+# 2.17 Reduce the budget of all departments by 10%.
+print(' \n reduce budget by 10%')
+conn.execute('''UPDATE Departments
+                     SET budget=budget*0.9
+             ''')
+res17 = conn.execute('SELECT * FROM Departments')
+for row in res17:
+   print(row)
+# 2.18 Reassign all employees from the Research department (code 77) to the IT department (code 14).
+print(' \n move employees from dep 77 to 14')
+
+conn.execute('''UPDATE Employees
+               SET department=14
+             WHERE department=77''')
+
+res18 = conn.execute('SELECT * FROM Employees')
+for row in res18:
+   print(row)
+# 2.19 Delete from the table all employees in the IT department (code 14).
+print('  \n delete all employees from dep 14')
+   
+conn.execute('''DELETE FROM Employees
+               WHERE Department=14''')
+
+res19 = conn.execute('SELECT * FROM Employees')
+for row in res19:
+   print(row)
+# 2.20 Delete from the table all employees who work in departments with a budget greater than or equal to $60,000.
+print('\n  delete all deps with budget>=60000')
+
+conn.execute('''DELETE FROM Departments
+             WHERE budget>=60000''')
+
+res20 = conn.execute('SELECT * FROM Departments')
+for row in res20:
+   print(row)
+   
+# 2.21 Delete from the table all employees.
+print('\n delete all employees')
+
+conn.execute('''DELETE FROM Employees''')
+
+res21 = conn.execute('SELECT * FROM Employees')
+for row in res21:
+   print(row)
 
 
 conn.close()
