@@ -101,13 +101,69 @@ for row in res10:
    print(row)
    
 # 3.11 Create a new warehouse in New York with a capacity for 3 boxes.
+print(" \n add NY warehouset")
+conn.execute('''INSERT INTO Warehouses 
+             VALUES(6, 'New York', 3);''')
+
+res11=conn.execute('SELECT * FROM Warehouses')
+for row in res11:
+   print(row)
    
 # 3.12 Create a new box, with code "H5RT", containing "Papers" with a value of $200,and located in warehouse 2.
+print(" \n add box")
+conn.execute('''INSERT INTO Boxes 
+             VALUES('H5RT','Papers', 200, 2);''')
+
+res12=conn.execute('SELECT * FROM Boxes WHERE contents="Papers"')
+for row in res12:
+   print(row)
+   
+
 # 3.13 Reduce the value of all boxes by 15%.
+print(" \n reduce box value by 15%")
+
+res13=conn.execute('SELECT * FROM Boxes WHERE contents="Papers"')
+for row in res13:
+   print(row)
+
 # 3.14 Remove all boxes with a value lower than $100.
-#  3.15 Remove all boxes from saturated warehouses.
-#  3.16 Add Index for column "Warehouse" in table "boxes"
-#  !!!NOTE!!!: index should NOT be used on small tables in practice
-#  3.17 Print all the existing indexes
-#  !!!NOTE!!!: index should NOT be used on small tables in practice
-#  3.18 Remove (drop) the index you added just
+print(" \n delete boxes value<100")
+
+conn.execute('DELETE FROM Boxes WHERE value<100')
+
+res14=conn.execute('SELECT * FROM Boxes')
+for row in res14:
+   print(row)
+
+#  3.15 Remove all boxes from saturated warehouses. FIGUTRE THIS ONE
+print(" \n delete all boxes from saturated warehouses NOT DONE")
+
+conn.execute('''''')
+
+res15=conn.execute('SELECT * FROM Boxes')
+for row in res15:
+   print(row)
+
+
+#  3.16 Add Index for column "Warehouse" in table "boxes" !!!NOTE!!!: index should NOT be used on small tables in practice
+   
+print(" \n add index to wh in boxes")
+
+conn.execute('''CREATE INDEX id
+ON Boxes(Warehouse);''')
+
+
+#  3.17 Print all the existing indexes  !!!NOTE!!!: index should NOT be used on small tables in practice
+
+res16=conn.execute('SELECT * FROM SQLITE_MASTER WHERE type = "index";')
+for row in res16:
+   print(row)
+   
+#  3.18 Remove (drop) the index you added just !!!NOTE!!!: index should NOT be used on small tables in practice
+print(" \n delete index to wh in boxes")
+
+conn.execute('''DROP INDEX id;''')
+
+
+   
+conn.close()
