@@ -44,11 +44,6 @@ for row in res5:
 # 3.6 Same as previous exercise, but select only those warehouses where the average value of the boxes is greater than 150.
 print('\n avg value of boxes by warehouse if avg>150')
 
-# res5=conn.execute('''SELECT AVG(value),warehouse  
-#                   FROM Boxes 
-#                   WHERE Value>150                WHY???????
-#                   GROUP BY warehouse''')   
-
 res5=conn.execute('''SELECT warehouse , AVG(value) 
                   FROM Boxes          
                   GROUP BY warehouse
@@ -135,10 +130,16 @@ res14=conn.execute('SELECT * FROM Boxes')
 for row in res14:
    print(row)
 
-#  3.15 Remove all boxes from saturated warehouses. FIGUTRE THIS ONE
-print(" \n delete all boxes from saturated warehouses NOT DONE")
+#  3.15 Remove all boxes from saturated warehouses. 
+print(" \n delete all boxes from saturated warehouses")
 
-conn.execute('''''')
+conn.execute('''UPDATE Boxes SET Warehouse=0
+                WHERE warehouse =(SELECT Boxes.warehouse
+                  FROM Boxes 
+                  JOIN Warehouses
+                  ON Boxes.Warehouse=Warehouses.code
+                  GROUP BY warehouse
+                  HAVING COUNT(Boxes.code)>capacity); ''')
 
 res15=conn.execute('SELECT * FROM Boxes')
 for row in res15:
@@ -155,8 +156,8 @@ ON Boxes(Warehouse);''')
 
 #  3.17 Print all the existing indexes  !!!NOTE!!!: index should NOT be used on small tables in practice
 
-res16=conn.execute('SELECT * FROM SQLITE_MASTER WHERE type = "index";')
-for row in res16:
+res17=conn.execute('SELECT * FROM SQLITE_MASTER WHERE type = "index";')
+for row in res17:
    print(row)
    
 #  3.18 Remove (drop) the index you added just !!!NOTE!!!: index should NOT be used on small tables in practice
