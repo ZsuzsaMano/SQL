@@ -81,12 +81,11 @@ for row in res9:
 # 4.10 Remove movie theaters projecting movies rated "NC-17".
 print(" \n delete theater with NC_17")
 conn.execute('''DELETE FROM MovieTheaters
-                WHERE EXISTS
-                ( SELECT *
+                WHERE 
+                Movie =( SELECT code
                     FROM Movies
-                    WHERE Movies.rating = "NC-17" );
-                                ;''')
-res10=conn.execute('SELECT * FROM MovieTheater')
+                    WHERE rating = "NC-17" );''')
+res10=conn.execute('SELECT * FROM MovieTheaters')
 for row in res10:
    print(row)
 
