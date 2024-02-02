@@ -134,7 +134,7 @@ for row in res14:
 print(" \n delete all boxes from saturated warehouses")
 
 conn.execute('''UPDATE Boxes SET Warehouse=0
-                WHERE warehouse =(SELECT Boxes.warehouse
+                WHERE warehouse IN (SELECT Boxes.warehouse
                   FROM Boxes 
                   JOIN Warehouses
                   ON Boxes.Warehouse=Warehouses.code
