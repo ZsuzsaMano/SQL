@@ -57,12 +57,14 @@ res4 = conn.execute('''SELECT country, COUNT(country)
 for row in res4:
    print(row) 
 
-# print("\n 9.5 Print the average length of the package name of all the UNIQUE packages")
-# res5 = conn.execute('''SELECT DISTINCT package
-#                        FROM cran_logs
-#                         ''')
-# for row in res5:
-#    print(row) 
+print("\n 9.5 Print the average length of the package name of all the UNIQUE packages")
+res5 = conn.execute('''WITH package_names AS( SELECT DISTINCT package
+                       FROM cran_logs)
+                       SELECT ROUND(AVG(LENGTH(package)),2)
+                       FROM package_names
+                        ''')
+for row in res5:
+   print(row) 
 
 print("\n 9.6 Get the package whose download count ranks 2nd (print package name and its download count).")
 res6 = conn.execute('''SELECT package, COUNT(package)
@@ -75,16 +77,24 @@ for row in res6:
    print(row) 
 
 print("\n 9.7 Print the name of the package whose download count is bigger than 1000.")
-res6 = conn.execute('''SELECT package, COUNT(package)
+res7 = conn.execute('''SELECT package, COUNT(package)
                        FROM cran_logs
                        GROUP BY package
-                       HAVING COUNT(package)>1000
-                  
+                       HAVING COUNT(package)>1000           
                      ''')
-for row in res6:
+for row in res7:
    print(row) 
 
 # The field r_os is the operating system of the users.
 print("\n 9.8 Here we would like to know what main system we have (ignore version number), the relevant counts, and the proportion (in percentage).")
+res8 = conn.execute('''SELECT substr(r_os,1,6), COUNT(substr(r_os,1,6))
+                       FROM cran_logs
+                       GROUP BY substr(r_os,1,6)          
+                     ''')
+for row in res8:
+   print(row) 
 
 conn.close()
+
+
+## 9.8 (%) to finish
