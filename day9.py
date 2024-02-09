@@ -87,14 +87,14 @@ for row in res7:
 
 # The field r_os is the operating system of the users.
 print("\n 9.8 Here we would like to know what main system we have (ignore version number), the relevant counts, and the proportion (in percentage).")
-res8 = conn.execute('''SELECT substr(r_os,1,6), COUNT(substr(r_os,1,6))
-                       FROM cran_logs
+res8 = conn.execute('''WITH total AS (SELECT COUNT(r_os) as total_os
+                       FROM cran_logs)
+                       SELECT substr(r_os,1,6) as Sytem , COUNT(substr(r_os,1,6)) as os_count, ROUND(COUNT(substr(r_os,1,6))*1.0/total.total_os*100,2) as os_percent
+                       FROM cran_logs, total
                        GROUP BY substr(r_os,1,6)          
-                     ''')
+                     ''')  
 for row in res8:
    print(row) 
 
+
 conn.close()
-
-
-## 9.8 (%) to finish
